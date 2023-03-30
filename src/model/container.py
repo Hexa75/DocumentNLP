@@ -3,19 +3,35 @@ from src.model.content import Content
 
 class Container:
 
-    def __init__(self, level: int = 0):
+    def __init__(self, paragraphs, level: int = 0):
         self.level = level
-        self.xcontent = 2
-        self.children = self.create_children()
+        self.paragraphs = paragraphs
+        self.children = self.create_children(paragraphs)
 
-    def create_children(self) -> []:
+    def create_children(self, paragraphs) -> []:
         """
         creates children containers or directly attached content
         and returns the list of containers and contents of level+1
         :return:
         [Content or Container]
         """
-        pass
+        text = ""
+        in_children = False
+        for p in paragraphs:
+            if (p.style.name == "normal") and not in_children:
+                text += p.text if p.text != "" else "\n"
+            else:
+                in_children = True
+
+        children = [Content(text)]
+
+        return children
+
+
+
+
+
+
 
 
 

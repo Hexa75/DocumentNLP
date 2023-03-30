@@ -1,4 +1,5 @@
 from src.model.hdoc import Hdoc
+from src.model.content import Content
 
 
 def test_1_hdoc_create():
@@ -7,4 +8,5 @@ def test_1_hdoc_create():
 
     hdoc = Hdoc(path)
 
-    assert(hdoc.container.children == None)
+    assert(len(hdoc.container.children) == 1)
+
