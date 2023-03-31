@@ -4,13 +4,15 @@ from src.config import INFINITE
 
 class Container:
 
-    def __init__(self, paragraphs, level: int = 0):
-        assert paragraphs
+    def __init__(self, paragraphs: [Paragraph], title: Paragraph = None, level: int = 0):
         self.level = level
-        self.title = paragraphs[0]
-        self.paragraphs, self.children = self.create_children(paragraphs[1:])
+        self.title = title
+        if paragraphs:
+            self.paragraphs, self.children = self.create_children(paragraphs, level)
 
-    def create_children(self, paragraphs) -> ([], []):
+
+
+    def create_children(self, paragraphs, level) -> ([], []):
         """
         creates children containers or directly attached content
         and returns the list of containers and contents of level+1
@@ -19,24 +21,29 @@ class Container:
         """
         attached_paragraphs = []
         container_paragraphs = []
+        container_title = None
         children = []
         in_children = False
-        level = 0
+        level = INFINITE
 
         while paragraphs:
             p = paragraphs.pop(0)
-            if not p.is_structure and not in_children:
+            if not in_children and not p.is_structure:
                 attached_paragraphs.append(p)
             else:
                 in_children = True
-                while level < p.level or level == INFINITE:
-                    container_paragraphs.append(p)
-                children.append(Container(container_paragraphs))
-                container_paragraphs = [p]
-                level = p.level
+                if p.is_structure and p.level <= level:  # if p is higher or equal in hierarchy
+                    if container_paragraphs or container_title:
+                        children.append(Container(container_paragraphs, container_title, level))
+                    container_paragraphs = []
+                    container_title = p
+                    level = p.level
 
-        if container_paragraphs:
-            children.append(Container(container_paragraphs, level))
+                else:  # p is stricly lower in hierarchy
+                    container_paragraphs.append(p)
+
+        if container_paragraphs or container_title:
+            children.append(Container(container_paragraphs, container_title, level))
 
         return attached_paragraphs, children
 

@@ -11,9 +11,10 @@ class Doc:
 
         self.xdoc = docx.Document(path)
         paragraphs = [Paragraph(xp) for xp in self.xdoc.paragraphs]
-        self.container = Container(paragraphs)  # need to extract the data necessary in order to create the objects below
+        if paragraphs:
+            self.container = Container(paragraphs)
 
-        pass
+
 
     def save_as_docx(self):
         pass
