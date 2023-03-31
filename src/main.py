@@ -1,3 +1,3 @@
-from model.hdoc import Hdoc
+from model.doc import Doc
 
-hdoc = Hdoc('../data/cctp.docx')
+hdoc = Doc('../data/cctp.docx')

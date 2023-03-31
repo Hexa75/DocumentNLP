@@ -1,53 +1,44 @@
-from src.model.content import Content
+from src.model.paragraph import Paragraph
+from src.config import INFINITE
 
 
 class Container:
 
     def __init__(self, paragraphs, level: int = 0):
+        assert paragraphs
         self.level = level
-        self.paragraphs = paragraphs
-        self.children = self.create_children(paragraphs)
+        self.title = paragraphs[0]
+        self.paragraphs, self.children = self.create_children(paragraphs[1:])
 
-    def create_children(self, paragraphs) -> []:
+    def create_children(self, paragraphs) -> ([], []):
         """
         creates children containers or directly attached content
         and returns the list of containers and contents of level+1
         :return:
         [Content or Container]
         """
-        text = ""
+        attached_paragraphs = []
+        container_paragraphs = []
+        children = []
         in_children = False
-        for p in paragraphs:
-            if (p.style.name == "normal") and not in_children:
-                text += p.text if p.text != "" else "\n"
+        level = 0
+
+        while paragraphs:
+            p = paragraphs.pop(0)
+            if not p.is_structure and not in_children:
+                attached_paragraphs.append(p)
             else:
                 in_children = True
+                while level < p.level or level == INFINITE:
+                    container_paragraphs.append(p)
+                children.append(Container(container_paragraphs))
+                container_paragraphs = [p]
+                level = p.level
 
-        children = [Content(text)]
+        if container_paragraphs:
+            children.append(Container(container_paragraphs, level))
 
-        return children
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return attached_paragraphs, children
 
     def summarize(self, max_word_length=100):
         pass
