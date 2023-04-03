@@ -7,10 +7,33 @@ class Container:
     def __init__(self, paragraphs: [Paragraph], title: Paragraph = None, level: int = 0):
         self.level = level
         self.title = title
+        self.paragraphs = None
+        self.children = None
+        self.table_of_contents = None
         if paragraphs:
             self.paragraphs, self.children = self.create_children(paragraphs, level)
-        self.text = ""
+        self.text = self.get_text()
 
+    def get_text(self):
+        text = ""
+        if self.title:
+            text = "Titre " + str(self.level) + " : " + self.title.text + '\n'
+        if self.paragraphs:
+            for p in self.paragraphs:
+                text += p.text + '\n'
+        if self.children:
+            for child in self.children:
+                text += child.text
+        return text
+
+
+    def get_table_of_contents(self):
+        toc = []
+        toc.append({str(self.level): self.title.text})
+        if self.children:
+            for child in self.children:
+                toc += child.table_of_contents
+        return toc
 
 
     def create_children(self, paragraphs, level) -> ([], []):
