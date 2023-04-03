@@ -3,7 +3,6 @@ from src.model.paragraph import Paragraph
 from src.model.container import Container
 
 
-
 def test_1_hdoc_create():
 
     path = '../../data/docu1.docx'  # "je m'appelle Peng"
@@ -14,7 +13,6 @@ def test_1_hdoc_create():
     assert len(doc.container.paragraphs) == 1
     assert not doc.container.title
     assert doc.container.level == 0
-
 
 
 def test_2_hdoc_create():
@@ -28,6 +26,7 @@ def test_2_hdoc_create():
     assert doc.container.children[0].title
     assert doc.container.children[0].level == 1
 
+
 def test_3_hdoc_create():
 
     path = '../../data/docu3.docx'  # # je m'appelle Peng (titre 2)
@@ -39,6 +38,7 @@ def test_3_hdoc_create():
     assert doc.container.children[0].title
     assert doc.container.children[0].level == 2
 
+
 def test_4_hdoc_create():
     path = '../../data/docu4.docx'  # # je m'appelle Peng (titre 2),  et là ça marche?
 
@@ -49,6 +49,23 @@ def test_4_hdoc_create():
     assert doc.container.children[0].title
     assert doc.container.children[0].level == 2
     assert doc.container.children[0].paragraphs
+
+
+def test_9_hdoc_create():
+    path = '../../data/docu9.docx'  # with image title 2
+
+    doc = Doc(path)
+    assert len(doc.container.children) == 1
+    assert doc.container.children[0].title
+
+def test_10_hdoc_create():
+    path = '../../data/docu10.docx'  # with footer and header
+
+    doc = Doc(path)
+    assert len(doc.container.children) == 1
+    assert doc.container.children[0].title
+
+
 
 def test_cccp_hdoc_create():
     path = '../../data/cctp.docx'

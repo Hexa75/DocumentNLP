@@ -9,6 +9,7 @@ class Container:
         self.title = title
         if paragraphs:
             self.paragraphs, self.children = self.create_children(paragraphs, level)
+        self.text = ""
 
 
 
