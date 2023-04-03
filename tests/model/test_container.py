@@ -39,7 +39,7 @@ def test_4_container_get_text():
 def test_1_get_table_of_contents():
     path = '../../data/docu1.docx'  # Bonjour, je m’appelle Peng
     doc = Doc(path)
-    assert doc.container.table_of_contents is None
+    assert doc.container.table_of_contents == []
 
 
 def test_2_get_table_of_contents():

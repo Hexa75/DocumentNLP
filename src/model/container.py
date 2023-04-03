@@ -9,10 +9,10 @@ class Container:
         self.title = title
         self.paragraphs = None
         self.children = None
-        self.table_of_contents = None
         if paragraphs:
             self.paragraphs, self.children = self.create_children(paragraphs, level)
         self.text = self.get_text()
+        self.table_of_contents = self.get_table_of_contents()
 
     def get_text(self):
         text = ""
@@ -29,7 +29,8 @@ class Container:
 
     def get_table_of_contents(self):
         toc = []
-        toc.append({str(self.level): self.title.text})
+        if self.title:
+            toc += [{str(self.level): self.title.text}]
         if self.children:
             for child in self.children:
                 toc += child.table_of_contents
