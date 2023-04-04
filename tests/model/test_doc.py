@@ -58,13 +58,13 @@ def test_9_hdoc_create():
     assert len(doc.container.children) == 1
     assert doc.container.children[0].title
 
+
 def test_10_hdoc_create():
     path = '../../data/docu10.docx'  # with footer and header
 
     doc = Doc(path)
     assert len(doc.container.children) == 1
     assert doc.container.children[0].title
-
 
 
 def test_cccp_hdoc_create():
@@ -79,9 +79,9 @@ def test_set_style_from():
     doc19 = Doc(path19)
     doc20 = Doc(path20)
 
-    doc20.set_style_from(doc20)
+    doc19.set_style_from(doc20)
 
-    doc20.save_as_docx('../../data/docu22.docx')
+    doc19.save_as_docx('../../data/docu22.docx')
 
 
 

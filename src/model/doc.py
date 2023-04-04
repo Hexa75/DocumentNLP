@@ -30,6 +30,11 @@ class Doc:
             font2 = doc.xdoc.styles[name].font
             font1 = self.xdoc.styles[name].font
             font1.size = font2.size
+            font1.color.rgb = font2.color.rgb
+            font1.name = font2.name
+
+
+
 
 
 
