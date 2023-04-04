@@ -58,3 +58,10 @@ def test_3_get_table_of_contents():
     assert doc.container.table_of_contents == [{"1": "Bonjour, je m’appelle Peng"}, {"3": "Et j’aime le chocolat"},
                                                  {"1": "Et moi je m’appelle Jean-Charles"}]
 
+
+def test_1_move_container():
+    path = '../../data/docu15.docx'  # Bonjour, je m’appelle Peng (title 1) + title3 + ... + title 1
+
+    doc = Doc(path)
+
+    source

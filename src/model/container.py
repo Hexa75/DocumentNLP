@@ -7,8 +7,8 @@ class Container:
     def __init__(self, paragraphs: [Paragraph], title: Paragraph = None, level: int = 0):
         self.level = level
         self.title = title
-        self.paragraphs = None
-        self.children = None
+        self.paragraphs = []
+        self.children = []
         if paragraphs:
             self.paragraphs, self.children = self.create_children(paragraphs, level)
         self.text = self.get_text()
@@ -35,6 +35,22 @@ class Container:
             for child in self.children:
                 toc += child.table_of_contents
         return toc
+
+
+    def move(self, new_father, position: int):
+
+        current_father = Container()  # should be added in the model
+        current_father.children.remove(self)
+
+        if position < len(new_father.children):
+            new_father.children.insert(position, self)
+        else:
+            new_father.children.append(self)
+
+
+
+
+
 
 
     def create_children(self, paragraphs, level) -> ([], []):
@@ -64,7 +80,7 @@ class Container:
                     container_title = p
                     level = p.level
 
-                else:  # p is stricly lower in hierarchy
+                else:  # p is strictly lower in hierarchy
                     container_paragraphs.append(p)
 
         if container_paragraphs or container_title:

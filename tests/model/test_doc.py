@@ -72,6 +72,19 @@ def test_cccp_hdoc_create():
     doc = Doc(path)
 
 
+def test_set_style_from():
+    path19 = '../../data/docu19.docx'
+    path20 = '../../data/docu20.docx'
+
+    doc19 = Doc(path19)
+    doc20 = Doc(path20)
+
+    doc20.set_style_from(doc20)
+
+    doc20.save_as_docx('../../data/docu22.docx')
+
+
+
 
 
 
