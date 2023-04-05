@@ -72,16 +72,51 @@ def test_cccp_hdoc_create():
     doc = Doc(path)
 
 
-def test_set_style_from():
+def test_1_set_style_from():
     path19 = '../../data/docu19.docx'
     path20 = '../../data/docu20.docx'
+    path22 = '../../data/docu22.docx'
 
     doc19 = Doc(path19)
     doc20 = Doc(path20)
 
-    doc19.set_style_from(doc20)
+    doc19.copy_styles_from(doc20)
 
-    doc19.save_as_docx('../../data/docu22.docx')
+    doc19.save_as_docx(path22)
+    doc22 = Doc(path22)
+
+    def get_style(doc: Doc, name):
+        return doc.xdoc.styles[name]
+
+    style19, style20, style22 = \
+        get_style(doc19, 'Heading 1'), get_style(doc20, 'Heading 1'), get_style(doc22, 'Heading 1')
+
+    assert style20.font.color.rgb == style22.font.color.rgb
+    assert style19.font.size == style22.font.size
+    assert style19.font.name == style22.font.name
+
+
+def test_2_set_style_from():  # custom style
+    path_input = '../../data/docu23.docx'
+    path_style = '../../data/docu24.docx'
+    path_output = '../../data/docu25.docx'
+
+    doc_input = Doc(path_input)
+    doc_style = Doc(path_style)
+
+    doc_input.copy_styles_from(doc_style)
+
+    doc_input.save_as_docx(path_output)
+    doc_output = Doc(path_output)
+
+    def get_style(doc: Doc, name):
+        return doc.xdoc.styles[name]
+
+    style_output, style_style = get_style(doc_output, 'Custom1'), get_style(doc_style, 'Custom1')
+
+    assert style_output.font.color.rgb == style_style.font.color.rgb
+    assert style_output.font.size == style_style.font.size
+    assert style_output.font.name == style_style.font.name
 
 
 

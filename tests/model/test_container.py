@@ -36,13 +36,13 @@ def test_4_container_get_text():
     assert doc.container.children[1].text == "Titre 1 : Et moi je m’appelle Jean-Charles\n"
 
 
-def test_1_get_table_of_contents():
+def test_1_table_of_contents():
     path = '../../data/docu1.docx'  # Bonjour, je m’appelle Peng
     doc = Doc(path)
     assert doc.container.table_of_contents == []
 
 
-def test_2_get_table_of_contents():
+def test_2_table_of_contents():
     path = '../../data/docu2.docx'  # Bonjour, je m’appelle Peng (title 1)
 
     doc = Doc(path)
@@ -64,4 +64,13 @@ def test_1_move_container():
 
     doc = Doc(path)
 
-    source
+
+def test_1_rank():
+    path = '../../data/docu15.docx'  # Bonjour, je m’appelle Peng (title 1) + title3 + ... + title 1
+
+    doc = Doc(path)
+    assert doc.container.rank == 0
+    assert doc.container.children[0].rank == 1
+    assert doc.container.children[0].children[0].rank == 2
+    assert doc.container.children[0].children[0].level == 3
+

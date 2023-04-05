@@ -4,30 +4,29 @@ from src.config import INFINITE
 
 class Container:
 
-    def __init__(self, paragraphs: [Paragraph], title: Paragraph = None, level: int = 0):
+    def __init__(self, paragraphs: [Paragraph], title: Paragraph = None, level: int = 0, rank: int = 0, father=None):
         self.level = level
         self.title = title
         self.paragraphs = []
         self.children = []
+        self.rank = rank
+        self.father = father  # if not father, then the container is at the top of the hierarchy
         if paragraphs:
-            self.paragraphs, self.children = self.create_children(paragraphs, level)
-        self.text = self.get_text()
-        self.table_of_contents = self.get_table_of_contents()
+            self.paragraphs, self.children = self.create_children(paragraphs, level, rank+1)
 
-    def get_text(self):
+    @property
+    def text(self):
         text = ""
         if self.title:
             text = "Titre " + str(self.level) + " : " + self.title.text + '\n'
-        if self.paragraphs:
-            for p in self.paragraphs:
+        for p in self.paragraphs:
                 text += p.text + '\n'
-        if self.children:
-            for child in self.children:
+        for child in self.children:
                 text += child.text
         return text
 
-
-    def get_table_of_contents(self):
+    @property
+    def table_of_contents(self):
         toc = []
         if self.title:
             toc += [{str(self.level): self.title.text}]
@@ -36,24 +35,18 @@ class Container:
                 toc += child.table_of_contents
         return toc
 
-
-    def move(self, new_father, position: int):
-
-        current_father = Container()  # should be added in the model
+    def move(self, position: int, new_father = None):
+        current_father = self.father  # should be added in the model
         current_father.children.remove(self)
 
+        self.rank = new_father.rank + 1 if new_father else 0
+        self.father = new_father
         if position < len(new_father.children):
             new_father.children.insert(position, self)
         else:
             new_father.children.append(self)
 
-
-
-
-
-
-
-    def create_children(self, paragraphs, level) -> ([], []):
+    def create_children(self, paragraphs, level, rank) -> ([], []):
         """
         creates children containers or directly attached content
         and returns the list of containers and contents of level+1
@@ -75,7 +68,7 @@ class Container:
                 in_children = True
                 if p.is_structure and p.level <= level:  # if p is higher or equal in hierarchy
                     if container_paragraphs or container_title:
-                        children.append(Container(container_paragraphs, container_title, level))
+                       children.append(Container(container_paragraphs, container_title, level, rank, self))
                     container_paragraphs = []
                     container_title = p
                     level = p.level
@@ -84,7 +77,7 @@ class Container:
                     container_paragraphs.append(p)
 
         if container_paragraphs or container_title:
-            children.append(Container(container_paragraphs, container_title, level))
+            children.append(Container(container_paragraphs, container_title, level, rank, self))
 
         return attached_paragraphs, children
 
