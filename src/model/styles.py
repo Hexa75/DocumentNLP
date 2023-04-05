@@ -1,12 +1,10 @@
 
-
 class Styles:
 
     def __init__(self, xstyles):
 
         self.xstyles = xstyles
         self.styles = {xstyles.s.name: s for s in xstyles}
-
 
     def compare_styles(self, ref_styles):
 
