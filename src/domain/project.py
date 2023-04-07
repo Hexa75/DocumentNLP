@@ -1,4 +1,4 @@
-from src.model.doc import Doc
+from src.domain.doc import Doc
 
 
 class Project:

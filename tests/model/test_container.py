@@ -1,6 +1,6 @@
-from src.model.doc import Doc
-from src.model.paragraph import Paragraph
-from src.model.container import Container
+from src.domain.doc import Doc
+from src.domain.paragraph import Paragraph
+from src.domain.container import Container
 
 
 def test_1_container_get_text():

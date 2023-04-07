@@ -1,6 +1,6 @@
-from src.model.doc import Doc
-from src.model.paragraph import Paragraph
-from src.model.container import Container
+from src.domain.doc import Doc
+from src.domain.paragraph import Paragraph
+from src.domain.container import Container
 
 
 def test_1_hdoc_create():
@@ -80,7 +80,7 @@ def test_1_set_style_from():
     doc19 = Doc(path19)
     doc20 = Doc(path20)
 
-    doc19.copy_styles_from(doc20)
+    doc19.apply_styles_from(doc20)
 
     doc19.save_as_docx(path22)
     doc22 = Doc(path22)
@@ -104,7 +104,7 @@ def test_2_set_style_from():  # custom style
     doc_input = Doc(path_input)
     doc_style = Doc(path_style)
 
-    doc_input.copy_styles_from(doc_style)
+    doc_input.apply_styles_from(doc_style)
 
     doc_input.save_as_docx(path_output)
     doc_output = Doc(path_output)
