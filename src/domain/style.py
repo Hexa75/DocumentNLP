@@ -12,3 +12,5 @@ class Style:
             self.xstyle.font.size = xref.font.size
             self.xstyle.font.color.rgb = xref.font.color.rgb
             self.xstyle.font.name = xref.font.name
+            
+        pass
